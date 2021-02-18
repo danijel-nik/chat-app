@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 import io from 'socket.io-client'
+import InfoBar from '../InfoBar/InfoBar'
+import Input from '../Input/Input'
+import Messages from '../Messages/Messages'
 
 import './Chat.css'
 
@@ -47,15 +50,16 @@ const Chat = ({ match }) => {
         }
     }
 
-    console.log(message, messages)
-
     return (
         <div className="outerContainer">
             <div className="container">
-                <input 
-                    value={message} 
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && sendMessage(e) } />
+                <InfoBar room={room} />
+                <Messages messages={messages} name={name} />
+                <Input 
+                    message={message} 
+                    setMessage={setMessage}
+                    sendMessage={sendMessage} 
+                />
             </div>
         </div>
     )
