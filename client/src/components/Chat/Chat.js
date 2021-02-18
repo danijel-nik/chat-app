@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 import InfoBar from '../InfoBar/InfoBar'
 import Input from '../Input/Input'
 import Messages from '../Messages/Messages'
+import TextContainer from '../TextContainer/TextContainer'
 
 import './Chat.css'
 
@@ -14,6 +15,7 @@ const Chat = ({ match }) => {
     const [room, setRoom] = useState('')
     const [messages, setMessages] = useState([])
     const [message, setMessage] = useState('')
+    const [users, setUsers] = useState([])
 
     const socketHost = process.env.REACT_APP_SOCKET_HOST
 
@@ -40,6 +42,10 @@ const Chat = ({ match }) => {
         socket.on('message', (message) => {
             setMessages([...messages, message])
         })
+
+        socket.on('roomData', ({ users }) => {
+            setUsers(users)
+        })
     }, [messages])
 
     const sendMessage = (e) => {
@@ -61,6 +67,7 @@ const Chat = ({ match }) => {
                     sendMessage={sendMessage} 
                 />
             </div>
+            <TextContainer users={users} />
         </div>
     )
 }
